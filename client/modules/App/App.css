@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+}
+
+.center {
+  flex-grow: 2;
+  max-width: 980px;
+  min-width: 600px;
+}
+
+.side {
+  flex-grow: 1;
+}
