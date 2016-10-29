@@ -12,6 +12,14 @@ export default {
     postTitle: 'Post Title',
     postContent: 'Post Content',
     submit: 'Submit',
+    navMain: 'Main',
+    navHistoty: 'History',
+    navSignUp: 'Sign Up',
+    navSignIn: 'Sign In',
+    navUsers: 'Users',
+    navLanguage: 'Language',
+    email: 'Email',
+    password: 'Password',
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

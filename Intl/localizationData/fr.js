@@ -11,7 +11,15 @@ export default {
     authorName: 'Nom de l\'auteur',
     postTitle: 'Titre de l\'article',
     postContent: 'Contenu après',
-    submit: 'Soumettre',
+    submit: 'Отправить',
+    navMain: 'Главная',
+    navHistoty: 'История',
+    navSignUp: 'Регистрация',
+    navSignIn: 'Логин',
+    navUsers: 'Пользователи',
+    navLanguage: 'Язык',
+    email: 'Емейл',
+    password: 'Пароль',
     comment: `user {name} {value, plural,
     	  =0 {does not have any comments}
     	  =1 {has # comment}

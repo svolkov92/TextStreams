@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { Button, PageHeader, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { isAdmin } from '../../../../util/apiCaller';
 
 // Import Style
 import styles from './Header.css';
@@ -14,19 +15,16 @@ export function Header(props, context) {
     <PageHeader> Text Broadcast Service</PageHeader>
   );
 
-  this.handleSelect = (selectedKey) => {
-    alert('selected ' + selectedKey);
-  };
-
   const navBar = (
-    <Nav bsStyle="tabs" justified activeKey="1" onSelect={this.handleSelect}>
-      <NavItem eventKey="1" href="#">Main</NavItem>
-      <NavItem eventKey="2" href="#">History</NavItem>
-      <NavItem eventKey="3" >Sign Up</NavItem>
-      <NavItem eventKey="3" >Sign In</NavItem>
-      <NavDropdown eventKey="4" title="Language" id="nav-dropdown">
-        <MenuItem eventKey="4.1">En</MenuItem>
-        <MenuItem eventKey="4.2">Ru</MenuItem>
+    <Nav bsStyle="tabs" justified activeKey="1">
+      <NavItem eventKey="1" href="#"><FormattedMessage id="navMain"/></NavItem>
+      <NavItem eventKey="2" href="#"><FormattedMessage id="navHistoty"/></NavItem>
+      {isAdmin() && <NavItem eventKey="2" href="#"><FormattedMessage id="navUsers"/></NavItem>}
+      <NavItem eventKey="3" href="/registration"><FormattedMessage id="navSignUp"/></NavItem>
+      <NavItem eventKey="3" href="/sign_in"><FormattedMessage id="navSignIn"/></NavItem>
+      <NavDropdown eventKey="4" title={props.intl.messages.navLanguage} id="nav-dropdown">
+        <MenuItem eventKey="4.1" onClick={() => props.switchLanguage('en')}>En</MenuItem>
+        <MenuItem eventKey="4.2" onClick={() => props.switchLanguage('fr')}>Ru</MenuItem>
       </NavDropdown>
     </Nav>
   );
@@ -36,26 +34,7 @@ export function Header(props, context) {
       {headerLogo}
       {navBar}
     </div>
-    //<div className={styles.header}>
-    //
-    //  <div className={styles['language-switcher']}>
-    //    <ul>
-    //      <li><FormattedMessage id="switchLanguage" /></li>
-    //      {languageNodes}
-    //    </ul>
-    //  </div>
-    //  <div className={styles.content}>
-    //    <h1 className={styles['site-title']}>
-    //      <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
-    //    </h1>
-    //    {
-    //      context.router.isActive('/', true)
-    //        ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}><FormattedMessage id="addPost" /></a>
-    //        : null
-    //    }
-    //    {buttonsInstance}
-    //  </div>
-    //</div>
+
   );
 }
 
