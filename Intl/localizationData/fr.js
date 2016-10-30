@@ -12,7 +12,7 @@ export default {
     postTitle: 'Titre de l\'article',
     postContent: 'Contenu après',
     submit: 'Отправить',
-    navMain: 'Главная',
+    navMain: 'Игры',
     navHistoty: 'История',
     navSignUp: 'Регистрация',
     navSignIn: 'Логин',

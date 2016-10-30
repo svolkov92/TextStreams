@@ -33,7 +33,7 @@ export function create(req, res) {
         res.json({ token: token, accessLevel: USER_LEVEL });
       })
       .catch(err => {
-        res.status(501).send(err);
+        res.status(500).send(err);
       });
   }
 }
@@ -41,7 +41,7 @@ export function create(req, res) {
 export function getUsers(req, res) {
   User.find().sort('email').exec((err, users) => {
     if (err) {
-      res.status(501).send(err);
+      res.status(500).send(err);
     } else{
       res.json({ users });
     }

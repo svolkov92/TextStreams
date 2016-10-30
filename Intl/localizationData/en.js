@@ -12,7 +12,7 @@ export default {
     postTitle: 'Post Title',
     postContent: 'Post Content',
     submit: 'Submit',
-    navMain: 'Main',
+    navMain: 'Games',
     navHistoty: 'History',
     navSignUp: 'Sign Up',
     navSignIn: 'Sign In',

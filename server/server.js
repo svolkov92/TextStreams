@@ -37,6 +37,7 @@ import dummyData from './dummyData';
 import serverConfig from './config';
 import users from './routes/user.routes';
 import auth from './routes/auth.routes';
+import games from './routes/game.routes';
 import User from './models/user';
 
 import passport from 'passport';
@@ -88,7 +89,7 @@ app.use('/api', posts);
 
 useRoutes(users);
 useRoutes(auth);
-
+useRoutes(games);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
