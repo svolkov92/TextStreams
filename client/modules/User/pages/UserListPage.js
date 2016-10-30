@@ -1,68 +1,51 @@
 /**
  * Created by Volkov on 30.10.2016.
  */
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// Import Components
-import UserList from '../../components/UserList';
-
-// Import Actions
-import { fetchUsers } from '../../PostActions';
+import UserListItem from '../components/UserListItem/UserListItem';
+import { Table } from 'react-bootstrap';
+import styles from './UserStyles.css';
 
 // Import Selectors
-import { getShowAddPost } from '../../../App/AppReducer';
-import { getPosts } from '../../PostReducer';
+import { getUsers } from '../UserReducer';
 
-class PostListPage extends Component {
-  componentDidMount() {
-    this.props.dispatch(fetchPosts());
+class UserListPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { }
   }
 
-  handleDeletePost = post => {
-    if (confirm('Do you want to delete this post')) { // eslint-disable-line
-      this.props.dispatch(deletePostRequest(post));
-    }
-  };
-
-  handleAddPost = (name, title, content) => {
-    this.props.dispatch(toggleAddPost());
-    this.props.dispatch(addPostRequest({ name, title, content }));
-  };
+  componentDidMount() {
+    this.setState({ users: this.props.users });
+  }
 
   render() {
     return (
-      <div>
-        <PostCreateWidget addPost={this.handleAddPost} showAddPost={this.props.showAddPost} />
-        <PostList handleDeletePost={this.handleDeletePost} posts={this.props.posts} />
-      </div>
-    );
+        <Table responsive>
+          <thead>
+          <tr>
+            <th>Email</th>
+            <th>Access Level</th>
+          </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.users.map(user=> (
+                <UserListItem {...user}/>
+              ))
+            }
+          </tbody>
+        </Table>
+    )
   }
 }
-
-// Actions required to provide data for this component to render in sever side.
-PostListPage.need = [() => { return fetchPosts(); }];
 
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
-    showAddPost: getShowAddPost(state),
-    posts: getPosts(state),
+    users: getUsers(state),
   };
 }
 
-PostListPage.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-  })).isRequired,
-  showAddPost: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
-PostListPage.contextTypes = {
-  router: React.PropTypes.object,
-};
-
-export default connect(mapStateToProps)(PostListPage);
+export default connect(mapStateToProps)(UserListPage);

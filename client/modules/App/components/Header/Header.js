@@ -17,9 +17,9 @@ export function Header(props, context) {
 
   const navBar = (
     <Nav bsStyle="tabs" justified activeKey="1">
-      <NavItem eventKey="1" href="#"><FormattedMessage id="navMain"/></NavItem>
+      <NavItem eventKey="1" href="/"><FormattedMessage id="navMain"/></NavItem>
       <NavItem eventKey="2" href="#"><FormattedMessage id="navHistoty"/></NavItem>
-      {isAdmin() && <NavItem eventKey="2" href="#"><FormattedMessage id="navUsers"/></NavItem>}
+      {isAdmin() && <NavItem eventKey="2" href="/users"><FormattedMessage id="navUsers"/></NavItem>}
       <NavItem eventKey="3" href="/registration"><FormattedMessage id="navSignUp"/></NavItem>
       <NavItem eventKey="3" href="/sign_in"><FormattedMessage id="navSignIn"/></NavItem>
       <NavDropdown eventKey="4" title={props.intl.messages.navLanguage} id="nav-dropdown">

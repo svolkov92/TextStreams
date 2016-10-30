@@ -6,7 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 // Import Style
-import styles from './RegistrationPage.css';
+import styles from './UserStyles.css';
 import { addUserRequest }from '../UserActions'
 
 export class RegistrationPage extends Component {

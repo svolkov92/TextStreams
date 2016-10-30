@@ -41,7 +41,7 @@ export function create(req, res) {
 export function getUsers(req, res) {
   User.find().sort('email').exec((err, users) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(501).send(err);
     } else{
       res.json({ users });
     }

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import App from './modules/App/App';
+import User from './modules/User/User';
 
 import { isAdmin, isReporter, isLoggedIn } from './util/apiCaller';
 
@@ -23,6 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Post/pages/PostDetailPage/PostDetailPage');
   require('./modules/User/pages/RegistrationPage');
   require('./modules/User/pages/LoginPage');
+  require('./modules/User/pages/UserListPage');
 }
 
 function requireAdmin(nextState, replace) {
@@ -62,7 +64,15 @@ export default (
         });
       }}
       />
-
+    <Route path="/users" component={User}>
+      <IndexRoute
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/User/pages/UserListPage').default);
+          });
+        }}
+        />
+    </Route>
     <Route
       path="/posts/:slug-:cuid"
       getComponent={(nextState, cb) => {

@@ -45,3 +45,14 @@ textarea {
   text-decoration: none;
   border-radius: 4px;
 }
+
+.users {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  flex-direction: column;
+}
+
+
+
+

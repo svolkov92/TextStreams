@@ -37,7 +37,7 @@ export function signInRequest(creds) {
 export function fetchUsers() {
    return (dispatch) => {
        return callApi('users').then(res => {
-         dispatch(addUsers(res.users));
+           dispatch(addUsers(res.users));
        });
    };
 }
