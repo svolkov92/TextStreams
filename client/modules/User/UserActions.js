@@ -28,11 +28,11 @@ export function signInRequest(creds) {
     return callApi('auth', 'post', creds).then(res => {
       localStorage.setItem('authenticationToken', res.token);
       localStorage.setItem('accessLevel', res.accessLevel);
+      localStorage.setItem('userName', creds.email);
       browserHistory.push('/');
     });
   };
 }
-
 
 export function fetchUsers() {
    return (dispatch) => {

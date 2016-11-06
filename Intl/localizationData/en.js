@@ -16,6 +16,7 @@ export default {
     navHistoty: 'History',
     navSignUp: 'Sign Up',
     navSignIn: 'Sign In',
+    navSignOut: 'Sign Out',
     navUsers: 'Users',
     navLanguage: 'Language',
     email: 'Email',

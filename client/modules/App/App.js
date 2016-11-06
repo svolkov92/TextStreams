@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 // Import Style
@@ -28,6 +29,12 @@ export class App extends Component {
     this.props.dispatch(toggleAddPost());
   };
 
+  signOut = () =>
+  {
+    localStorage.clear();
+    browserHistory.push('/');
+  };
+
   render() {
     return (
       <div>
@@ -55,6 +62,7 @@ export class App extends Component {
                 switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
                 intl={this.props.intl}
                 toggleAddPost={this.toggleAddPostSection}
+                signOut = {this.signOut}
               />
               <div className={styles.container}>
                   {this.props.children}

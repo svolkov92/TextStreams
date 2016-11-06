@@ -80,6 +80,12 @@ export const getAccessLevel = () => {
   }
 };
 
+export const getUserName = () => {
+  if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+    return localStorage.userName;
+  }
+};
+
 export const isLoggedIn = () => {
   return !!getAuthenticationToken();
 };

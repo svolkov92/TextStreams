@@ -3,10 +3,15 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Accordion, Panel, FormControl, Button } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
 
 import { getGames } from '../GameReducer';
-import { addGameRequest } from '../GameActions';
+import { addGameRequest, addCommentRequest } from '../GameActions';
+import { isAdmin, isReporter } from '../../../util/apiCaller';
+
+import AddComponent from '../components/AddComponent'
+
+import styles from './GameListPage.css';
 
 class GameListPage extends Component {
   constructor(props) {
@@ -32,26 +37,20 @@ class GameListPage extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <FormControl
-              type="text"
-              name="name"
-              value={this.state.name}
-              placeholder="Type Game Name"
-              onChange={this.onChange}
-              />
-          <Button bsStyle="primary" onClick={this.addGame}>Add Game</Button>
-        </div>
-        <Accordion>
+      <div className={styles.games}>
+        {
+          (isAdmin() || isReporter()) &&
+          <AddComponent name="name" value={this.state.name} placeholder="Type Game Name"
+            onChange={this.onChange} onClick={this.addGame} buttonName="Add Game" />
+
+        }
+        <ListGroup>
           {
             this.props.games.map(game=> (
-              <Panel header={game.name} eventKey={game.cuid}>
-                Text
-              </Panel>
+              <ListGroupItem href={`/games/${game.cuid}`} key={game.cuid}>{game.name}</ListGroupItem>
             ))
           }
-        </Accordion>
+        </ListGroup>
       </div>
     )
   }

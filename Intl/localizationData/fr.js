@@ -16,6 +16,7 @@ export default {
     navHistoty: 'История',
     navSignUp: 'Регистрация',
     navSignIn: 'Логин',
+    navSignOut: 'Выход',
     navUsers: 'Пользователи',
     navLanguage: 'Язык',
     email: 'Емейл',

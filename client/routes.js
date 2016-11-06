@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/User/pages/LoginPage');
   require('./modules/User/pages/UserListPage');
   require('./modules/Game/pages/GameListPage');
+  require('./modules/Game/pages/GamePage');
 }
 
 function requireAdmin(nextState, replace) {
@@ -79,6 +80,14 @@ export default (
         getComponent={(nextState, cb) => {
           require.ensure([], require => {
             cb(null, require('./modules/Game/pages/GameListPage').default);
+          });
+        }}
+        />
+      <Route
+        path=":cuid"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Game/pages/GamePage').default);
           });
         }}
         />
