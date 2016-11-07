@@ -4,11 +4,9 @@
 import callApi from '../../util/apiCaller';
 import { browserHistory } from 'react-router';
 
-
 export const ADD_GAME = 'ADD_GAME';
 export const ADD_GAMES = 'ADD_GAMES';
 export const UPDATE_GAME = 'UPDATE_GAME';
-
 
 export function addGame(game) {
   return {
@@ -47,10 +45,17 @@ export function addGameRequest(game) {
   };
 }
 
-
 export function updateGameRequest(game) {
   return (dispatch) => {
     return callApi('games/update', 'post', { game }).then(res => {
+    });
+  };
+}
+
+export function deleteGameRequest(game) {
+  return (dispatch) => {
+    return callApi('games/delete', 'post', { game }).then(res => {
+      dispatch(updateGame(res.game))
     });
   };
 }

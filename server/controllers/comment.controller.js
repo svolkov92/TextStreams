@@ -37,7 +37,6 @@ export function addCommentSocket(io) {
 
 export function deleteCommentSocket(io) {
   return function (req, res) {
-    console.log(req);
     Comment.findOne({ cuid: req.body.comment.cuid })
       .then(comment => {
         if (!comment) {

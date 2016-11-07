@@ -3,12 +3,16 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, FormControl, Button, ButtonGroup } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
+//reducers
 import { getGames } from '../GameReducer';
+//actions
 import { addGameRequest, addCommentRequest } from '../GameActions';
 import { isAdmin, isReporter } from '../../../util/apiCaller';
+//components
 import AddComponent from '../components/AddComponent'
+//styles
 import styles from './GameStyles.css';
 
 class GameListPage extends Component {
@@ -42,13 +46,15 @@ class GameListPage extends Component {
             onChange={this.onChange} onClick={this.addGame} buttonName="Add Game" />
 
         }
-        <ListGroup>
+        <ButtonGroup vertical block>
           {
             this.props.games.map(game=> (
-              <ListGroupItem onClick={() => browserHistory.push(`/games/${game.cuid}`)} key={game.cuid}>{game.name}</ListGroupItem>
+              <Button onClick={() => browserHistory.push(`/games/${game.cuid}`)} key={game.cuid}>
+                {game.name}
+              </Button>
             ))
           }
-        </ListGroup>
+        </ButtonGroup>
       </div>
     )
   }

@@ -36,7 +36,7 @@ const GameReducer = (state = initialState, action) => {
 /* Selectors */
 
 export const getGames = (state) => {
-  return state.games.data;
+  return state.games.data.filter(game => game.isActive === true);
 };
 
 export const getGame = (state, cuid) => state.games.data.filter(game => game.cuid === cuid)[0];

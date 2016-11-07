@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { addComment, removeComment } from '../Comment/CommentActions';
+import { updateGame } from '../Game/GameActions';
 // Import Style
 import styles from './App.css';
 
@@ -26,6 +27,7 @@ export class App extends Component {
     const socket = io.connect();
     socket.on('commentAdded', this.commentReceived);
     socket.on('commentRemoved', this.commentDeleted);
+    socket.on('gameStatusUpdated', this.gameStatusUpdated);
   }
 
   commentReceived = (response) => {
@@ -34,6 +36,10 @@ export class App extends Component {
 
   commentDeleted = (response) => {
     this.props.dispatch(removeComment(response.comment));
+  };
+
+  gameStatusUpdated = (response) => {
+    this.props.dispatch(updateGame(response.game));
   };
 
   toggleAddPostSection = () => {

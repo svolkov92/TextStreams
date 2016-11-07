@@ -1,16 +1,20 @@
 /**
  * Created by Volkov on 30.10.2016.
  */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, FormControl, Button, Panel } from 'react-bootstrap';
+//reducers
 import { getGame, getGames } from '../GameReducer';
 import { getComments } from '../../Comment/CommentReducer'
-import { addCommentRequest, fetchComments, addComment, removeCommentRequest } from '../../Comment/CommentActions'
+//actions
+import { addCommentRequest, addComment, removeCommentRequest } from '../../Comment/CommentActions'
+import { updateGameRequest, deleteGameRequest } from '../GameActions'
 import { isAdmin, isReporter } from '../../../util/apiCaller';
+//components
 import AddComponent from '../components/AddComponent';
 import GameCommentList from '../components/GameCommentList';
+//styles
 import styles from '../../../main.css';
 import gameStyles from './GameStyles.css';
 
@@ -24,12 +28,7 @@ class GamePage extends Component {
   }
 
   onChangeInput = (e) => {
-    debugger;
     this.setState({[e.target.name]: e.target.value});
-  };
-
-  commentReceive = (response) => {
-    this.props.dispatch(addComment(response.comment));
   };
 
   componentWillReceiveProps(e){
@@ -46,13 +45,28 @@ class GamePage extends Component {
     this.props.dispatch(addCommentRequest(comment));
   };
 
-  updateGame = () => {
-
-  };
-
   deleteComment = (e) => {
     this.props.dispatch(removeCommentRequest({cuid: e.target.id}));
   };
+
+  updateGame = () => {
+    let game = {
+      cuid: this.state.game.cuid,
+      status: this.state.newGameStatus,
+    };
+
+    this.props.dispatch(updateGameRequest(game));
+  };
+
+  deleteGame = () => {
+    var game = {
+      cuid: this.state.game.cuid,
+    };
+
+    this.props.dispatch(deleteGameRequest(game));
+  }
+
+
 
   render() {
     return (
@@ -71,8 +85,11 @@ class GamePage extends Component {
         </Panel>
 
         {(isAdmin() || isReporter()) &&
-        <AddComponent name="newGameStatus" value={this.state.newGameStatus} placeholder="Status"
+          <AddComponent name="newGameStatus" value={this.state.newGameStatus} placeholder="Status"
                       onChange={this.onChangeInput} onClick={this.updateGame} buttonName="Update Status" /> }
+
+        {(isAdmin() || isReporter()) &&
+          <Button onClick={this.deleteGame} bsStyle="danger">Delete</Button> }
 
       </div>
     )
