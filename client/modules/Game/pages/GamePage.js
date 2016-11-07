@@ -3,7 +3,8 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, FormControl, Button, Panel } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, FormControl, Button, Panel, Modal } from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 //reducers
 import { getGame, getGames } from '../GameReducer';
 import { getComments } from '../../Comment/CommentReducer'
@@ -14,6 +15,7 @@ import { isAdmin, isReporter } from '../../../util/apiCaller';
 //components
 import AddComponent from '../components/AddComponent';
 import GameCommentList from '../components/GameCommentList';
+import ModalComponent from '../components/ModalComponent';
 //styles
 import styles from '../../../main.css';
 import gameStyles from './GameStyles.css';
@@ -23,7 +25,8 @@ class GamePage extends Component {
     super(props);
     this.state = {
       game: props.game || { name: '', status: '' },
-      comments: props.comments || []
+      comments: props.comments || [],
+      showDeleteModal: false
     }
   }
 
@@ -58,12 +61,21 @@ class GamePage extends Component {
     this.props.dispatch(updateGameRequest(game));
   };
 
+  deleteGameShowModal = () => {
+    this.setState({showDeleteModal: true});
+  }
+
+  deleteGameHideModal = () => {
+    this.setState({showDeleteModal: false});
+  }
+
   deleteGame = () => {
     var game = {
       cuid: this.state.game.cuid,
     };
 
     this.props.dispatch(deleteGameRequest(game));
+    browserHistory.push('/games');
   }
 
 
@@ -71,6 +83,14 @@ class GamePage extends Component {
   render() {
     return (
       <div className={styles.w100percents}>
+        {
+          this.state.showDeleteModal &&
+          <ModalComponent title="Delete this game"
+                         body="Are you sure?"
+                         onClose={this.deleteGameHideModal}
+                         onYes={this.deleteGame}
+          />
+        }
 
         <Panel collapsible defaultExpanded header={this.state.game.name}>
 
@@ -78,18 +98,24 @@ class GamePage extends Component {
 
           <GameCommentList deleteComment={this.deleteComment} comments={this.props.comments} />
 
-          {(isAdmin() || isReporter()) &&
+          {
+            (isAdmin() || isReporter()) &&
             <AddComponent name="currentComment" value={this.state.currentComment} placeholder="Comment"
-                          onChange={this.onChangeInput} onClick={this.addComment} buttonName="Add Comment" /> }
+                          onChange={this.onChangeInput} onClick={this.addComment} buttonName="Add Comment" />
+          }
 
         </Panel>
 
-        {(isAdmin() || isReporter()) &&
+        {
+          (isAdmin() || isReporter()) &&
           <AddComponent name="newGameStatus" value={this.state.newGameStatus} placeholder="Status"
-                      onChange={this.onChangeInput} onClick={this.updateGame} buttonName="Update Status" /> }
+                      onChange={this.onChangeInput} onClick={this.updateGame} buttonName="Update Status" />
+        }
 
-        {(isAdmin() || isReporter()) &&
-          <Button onClick={this.deleteGame} bsStyle="danger">Delete</Button> }
+        {
+          (isAdmin() || isReporter()) &&
+          <Button onClick={this.deleteGameShowModal} bsStyle="danger">Delete</Button>
+        }
 
       </div>
     )
