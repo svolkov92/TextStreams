@@ -72,7 +72,7 @@ export function updateGameStatus(io) {
         }
       })
       .then(saved=> {
-        io.sockets.emit("gameStatusUpdated", {"comment": saved});
+        io.sockets.emit("gameStatusUpdated", {"game": saved});
         res.json({game: saved});
       })
       .catch(err=> {

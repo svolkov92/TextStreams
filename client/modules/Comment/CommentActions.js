@@ -40,7 +40,6 @@ export function fetchComments() {
 export function addCommentRequest(comment) {
   return (dispatch) => {
     return callApi('comments', 'post', { comment }).then(res => {
-      dispatch(addComment(res.comment))
     });
   };
 }

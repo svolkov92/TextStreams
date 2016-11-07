@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-
+import { addComment } from '../Comment/CommentActions';
 // Import Style
 import styles from './App.css';
 
@@ -23,7 +23,13 @@ export class App extends Component {
 
   componentDidMount() {
     this.setState({isMounted: true}); // eslint-disable-line
+    const socket = io.connect();
+    socket.on('commentAdded', this.commentReceive);
   }
+
+  commentReceive = (response) => {
+    this.props.dispatch(addComment(response.comment));
+  };
 
   toggleAddPostSection = () => {
     this.props.dispatch(toggleAddPost());
@@ -38,7 +44,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {true && this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
+        {false && this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
             title="Text Broadcast Service"

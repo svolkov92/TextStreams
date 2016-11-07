@@ -4,7 +4,7 @@
 import * as UserController from '../controllers/user.controller';
 
 export default function (router, protectedMiddleware) {
-  router.get('/users', protectedMiddleware, UserController.getUsers);
+  router.get('/users', UserController.getUsers);
   router.post('/users/registration', UserController.create);
   router.post('/users/update', protectedMiddleware, UserController.updateUserAccessLevel);
   return router;

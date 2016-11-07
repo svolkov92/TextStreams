@@ -36,7 +36,9 @@ const CommentReducer = (state = initialState, action) => {
 /* Selectors */
 
 export const getComments = (state, gameCuid) => {
-  return state.comments.data.filter(comment => comment.isActive === true && comment.gameCuid == gameCuid);
+  let sort = (a,b) => a.time - b.time;
+
+  return state.comments.data.filter(comment => comment.isActive === true && comment.gameCuid == gameCuid).sort(sort);
 };
 
 // Export Reducer

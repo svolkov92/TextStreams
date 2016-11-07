@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 // Import Actions
 import { fetchGames } from './GameActions';
-import { fetchComments } from '../Comment/CommentActions';
+import { fetchComments, addComment } from '../Comment/CommentActions';
 
 export class Game extends Component {
   constructor(props) {
@@ -16,8 +16,9 @@ export class Game extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchComments());
     this.props.dispatch(fetchGames());
+    this.props.dispatch(fetchComments());
+
     this.setState({ isMounted: true });
   }
 
@@ -27,8 +28,8 @@ export class Game extends Component {
 }
 // Actions required to provide data for this component to render in sever side.
 Game.need = [() => {
-  return fetchComments();
   return fetchGames();
+  return fetchComments();
 }];
 
 Game.propTypes = {

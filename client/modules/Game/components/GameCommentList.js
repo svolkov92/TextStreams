@@ -3,16 +3,23 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { ButtonToolbar, ButtonGroup, Button, FormGroup, InputGroup, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
+import styles from '../../../main.css';
 
 function GameCommentList(props) {
   return (
-    <div>
+    <ListGroup fill>
       {
         props.comments.map((comment, i)=> (
-          <div key={i}>{comment.value}</div>
+            <ListGroupItem key={i}>
+              <Button onClick={props.deleteComment} id={comment.cuid} bsStyle="danger">Delete</Button>
+              <span className={styles.ml10}>
+                {comment.value}
+              </span>
+            </ListGroupItem>
         ))
       }
-    </div>
+    </ListGroup>
   );
 }
 
