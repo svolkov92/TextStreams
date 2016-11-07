@@ -25,7 +25,7 @@ class UserListPage extends Component {
       cuid: e.target.name,
       accessLevel: e.target.value,
     };
-    
+
     this.props.dispatch(updateUserRequest(user));
   }
 

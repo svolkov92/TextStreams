@@ -4,6 +4,7 @@
 import React, { Component, PropTypes } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { Form, FormGroup, Col, ControlLabel, FormControl, Button  } from 'react-bootstrap';
 
 // Import Style
 import styles from './UserStyles.css';
@@ -26,17 +27,42 @@ export class SignInPage extends Component {
 
   render() {
     return (
-      <div className={styles.form}>
-        <div className={styles['form-content']}>
-          <h2 className={styles['form-title']}>Login</h2>
-          <input placeholder={this.props.intl.messages.userLogin} value={this.state.email} onChange={this.onChange}
-                 className={styles['form-field']} name="email"/>
-          <input placeholder={this.props.intl.messages.userPassword} value={this.state.password}
-                 onChange={this.onChange}
-                 className={styles['form-field']} name="password" type="password"/>
-          <a className={styles['post-submit-button']} href="#" onClick={this.signIn}><FormattedMessage
-            id="submit"/></a>
-        </div>
+      <div className={styles.container} >
+        <Form horizontal>
+          <FormGroup controlId="formHorizontalEmail">
+            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+              <FormattedMessage id="email"/>
+            </Col>
+            <Col sm={4}>
+              <FormControl type="email"
+                           name="email"
+                           placeholder={this.props.intl.messages.userLogin}
+                           value={this.state.email}
+                           onChange={this.onChange} />
+            </Col>
+          </FormGroup>
+
+          <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+              <FormattedMessage id="password"/>
+            </Col>
+            <Col sm={4}>
+              <FormControl type="password"
+                           name="password"
+                           placeholder={this.props.intl.messages.userPassword}
+                           value={this.state.password}
+                           onChange={this.onChange} />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={4} sm={4}>
+              <Button type="button" onClick={this.signIn}>
+                <FormattedMessage id="navSignIn"/>
+              </Button>
+            </Col>
+          </FormGroup>
+        </Form>
       </div>
     );
   }
