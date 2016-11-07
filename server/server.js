@@ -39,9 +39,16 @@ import users from './routes/user.routes';
 import auth from './routes/auth.routes';
 import games from './routes/game.routes';
 import User from './models/user';
-
+import SocketIo from 'socket.io';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function(socket) {
+  console.log("socket connected");
+});
 
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
@@ -61,9 +68,8 @@ passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 
 const useRoutes = (routes) => {
   let protectedMiddleware = passport.authenticate('jwt', { session: false });
-  app.use('/api', routes(new Router(), protectedMiddleware))
+  app.use('/api', routes(new Router(), protectedMiddleware, io))
 };
-
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -89,7 +95,7 @@ app.use('/api', posts);
 
 useRoutes(users);
 useRoutes(auth);
-useRoutes(games);
+useRoutes(games, io);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -113,6 +119,7 @@ const renderFullPage = (html, initialState) => {
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
         <link rel="shortcut icon" href="http://res.cloudinary.com/hashnode/image/upload/v1455629445/static_imgs/mern/mern-favicon-circle-fill.png" type="image/png" />
+        <script src="/socket.io/socket.io.js" type='text/javascript'></script>
       </head>
       <body>
         <div id="root">${html}</div>
@@ -175,7 +182,7 @@ app.use((req, res, next) => {
 });
 
 // start app
-app.listen(serverConfig.port, (error) => {
+server.listen(serverConfig.port, (error) => {
   if (!error) {
     console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
   }

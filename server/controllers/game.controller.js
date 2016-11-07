@@ -46,7 +46,7 @@ export function addComment(req, res) {
 
 export function getGames(req, res) {
 
-  Game.find().sort('name').exec((err, games) => {
+  Game.find({isActive: true}).sort('name').exec((err, games) => {
     if (err) {
       res.status(500).send(err);
     } else{
@@ -60,4 +60,28 @@ export function getGames(req, res) {
       });
     }
   });
+}
+
+export function addCommentSocket(io) {
+  return function (req, res) {
+    Game.findOne({ cuid: req.body.comment.gameCuid })
+      .then(game => {
+        if (!game || !req.body.comment.value) {
+          res.status(405).end();
+        } else {
+
+          let commentValue = sanitizeHtml(req.body.comment.value);
+          game.comments.push(commentValue);
+
+          return game.save();
+        }
+      })
+      .then(saved=> {
+        io.sockets.emit("comment", {"game": saved});
+        res.json({ game: saved });
+      })
+      .catch(err=> {
+        res.status(500).send(err);
+      });
+  }
 }
