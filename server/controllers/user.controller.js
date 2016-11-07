@@ -39,10 +39,11 @@ export function create(req, res) {
 }
 
 export function updateUserAccessLevel(req, res) {
+  console.log(req);
   User.findOne({cuid: req.body.user.cuid})
     .then(user => {
       if (!user) {
-        res.status(405).end();
+        res.status(403).end();
       } else {
         user.accessLevel = req.body.user.accessLevel;
         return user.save();

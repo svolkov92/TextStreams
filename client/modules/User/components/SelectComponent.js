@@ -2,6 +2,7 @@
  * Created by Volkov on 30.10.2016.
  */
 import React, { Component, PropTypes } from 'react';
+import { FormControl } from 'react-bootstrap';
 
 export class SelectComponent extends Component {
   constructor(props){
@@ -13,7 +14,7 @@ export class SelectComponent extends Component {
     return (
       <div>
         <label>{this.props.label}</label>
-        <select onChange={this.props.onChange} name={this.props.name} >
+        <FormControl componentClass="select" placeholder="select" onChange={this.props.onChange} name={this.props.name}>
           {
             this.props.options.map(function(item) {
               var extraProps = {};
@@ -21,10 +22,10 @@ export class SelectComponent extends Component {
               if (item.isSelected)
                 extraProps.selected = {};
 
-              return <option key={item.value} {...extraProps}>{item.name}</option>;
+              return <option key={item.value} value={item.value} {...extraProps}>{item.name}</option>;
             })
           }
-        </select>
+        </FormControl>
       </div>
     )
   }

@@ -2,7 +2,7 @@
  * Created by Volkov on 26.10.2016.
  */
 
-import { ADD_USERS } from './UserActions';
+import { ADD_USERS, UPDATE_GAME } from './UserActions';
 
 // Initial State
 const initialState = { data: [] };
@@ -15,6 +15,12 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.users,
+      };
+
+    case UPDATE_GAME:
+      return {
+        ...state,
+        data: state.data.map(obj => action.user.cuid === obj.cuid ? action.user : obj)
       };
 
     default:

@@ -45,7 +45,7 @@ export function deleteGame(req, res) {
   Game.findOne({ cuid: req.body.game.cuid })
     .then(game => {
       if (!game) {
-        res.status(405).end();
+        res.status(403).end();
       } else {
         game.isActive = false;
         return game.save();
@@ -65,7 +65,7 @@ export function updateGameStatus(io) {
     Game.findOne({cuid: req.body.game.cuid})
       .then(game => {
         if (!game) {
-          res.status(405).end();
+          res.status(403).end();
         } else {
           game.status = req.body.game.status;
           return game.save();

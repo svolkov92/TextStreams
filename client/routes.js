@@ -60,7 +60,7 @@ export default (
         });
       }}
       />
-    <Route path="/users" component={User}>
+    <Route path="/users" component={User}  onEnter={requireAdmin}>
       <IndexRoute
         getComponent={(nextState, cb) => {
           require.ensure([], require => {

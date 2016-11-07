@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import UserListItem from '../components/UserListItem/UserListItem';
 import { Table } from 'react-bootstrap';
 import styles from './UserStyles.css';
-
+import { updateUserRequest } from '../UserActions';
 // Import Selectors
 import { getUsers } from '../UserReducer';
 
@@ -20,23 +20,25 @@ class UserListPage extends Component {
     this.setState({ users: this.props.users });
   }
 
+  changeRole = (e) => {
+    let user = {
+      cuid: e.target.name,
+      accessLevel: e.target.value,
+    };
+    
+    this.props.dispatch(updateUserRequest(user));
+  }
+
+
   render() {
     return (
-        <Table responsive>
-          <thead>
-          <tr>
-            <th>Email</th>
-            <th>Access Level</th>
-          </tr>
-          </thead>
-          <tbody>
-            {
-              this.props.users.map(user=> (
-                <UserListItem {...user}/>
-              ))
-            }
-          </tbody>
-        </Table>
+      <form>
+        {
+          this.props.users.map(user=> (
+            <UserListItem {...user} changeRole={this.changeRole} />
+          ))
+        }
+      </form>
     )
   }
 }

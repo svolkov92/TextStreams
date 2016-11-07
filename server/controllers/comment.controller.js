@@ -40,7 +40,7 @@ export function deleteCommentSocket(io) {
     Comment.findOne({ cuid: req.body.comment.cuid })
       .then(comment => {
         if (!comment) {
-          res.status(405).end();
+          res.status(403).end();
         } else {
           comment.isActive = false;
           return comment.save();

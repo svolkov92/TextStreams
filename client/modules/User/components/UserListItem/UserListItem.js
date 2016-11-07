@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { SelectComponent } from '../SelectComponent'
-
+import { FormGroup, InputGroup } from 'react-bootstrap';
 // Import Style
 import styles from './UserListItem.css';
 
@@ -17,10 +17,14 @@ function UserListItem(props) {
   ];
 
   return (
-   <tr key={props.cuid}>
-     <td>{props.email}</td>
-     <td><SelectComponent name={props.cuid} options={accessLevels}  /></td>
-    </tr>
+     <FormGroup key={props.cuid}>
+       <InputGroup>
+         <InputGroup.Addon>{props.email}</InputGroup.Addon>
+         <InputGroup.Addon>
+         <SelectComponent name={props.cuid} options={accessLevels} onChange={props.changeRole}  />
+         </InputGroup.Addon>
+       </InputGroup>
+     </FormGroup>
   );
 }
 
