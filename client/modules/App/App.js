@@ -33,7 +33,6 @@ export class App extends Component {
   };
 
   commentDeleted = (response) => {
-    debugger;
     this.props.dispatch(removeComment(response.comment));
   };
 

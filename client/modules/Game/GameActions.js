@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router';
 
 export const ADD_GAME = 'ADD_GAME';
 export const ADD_GAMES = 'ADD_GAMES';
+export const UPDATE_GAME = 'UPDATE_GAME';
 
 
 export function addGame(game) {
@@ -23,6 +24,13 @@ export function addGames(games) {
   };
 }
 
+export function updateGame(game) {
+  return {
+    type: UPDATE_GAME,
+    game,
+  };
+}
+
 export function fetchGames() {
   return (dispatch) => {
     return callApi('games').then(res => {
@@ -35,6 +43,14 @@ export function addGameRequest(game) {
   return (dispatch) => {
     return callApi('games', 'post', { game }).then(res => {
       dispatch(addGame(res.game))
+    });
+  };
+}
+
+
+export function updateGameRequest(game) {
+  return (dispatch) => {
+    return callApi('games/update', 'post', { game }).then(res => {
     });
   };
 }

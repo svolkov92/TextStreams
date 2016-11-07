@@ -4,6 +4,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ButtonToolbar, ButtonGroup, Button, FormGroup, InputGroup, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { isAdmin, isReporter } from '../../../util/apiCaller';
 import styles from '../../../main.css';
 
 function GameCommentList(props) {
@@ -12,7 +13,7 @@ function GameCommentList(props) {
       {
         props.comments.map((comment, i)=> (
             <ListGroupItem key={i}>
-              <Button onClick={props.deleteComment} id={comment.cuid} bsStyle="danger">Delete</Button>
+              {(isAdmin() || isReporter()) && <Button onClick={props.deleteComment} id={comment.cuid} bsStyle="danger">Delete</Button>}
               <span className={styles.ml10}>
                 {comment.value}
               </span>

@@ -12,18 +12,20 @@ import { isAdmin, isReporter } from '../../../util/apiCaller';
 import AddComponent from '../components/AddComponent';
 import GameCommentList from '../components/GameCommentList';
 import styles from '../../../main.css';
+import gameStyles from './GameStyles.css';
 
 class GamePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: props.game || { name: '' },
+      game: props.game || { name: '', status: '' },
       comments: props.comments || []
     }
   }
 
-  onChangeCurrentComment = (e) => {
-    this.setState({['currentComment']: e.target.value});
+  onChangeInput = (e) => {
+    debugger;
+    this.setState({[e.target.name]: e.target.value});
   };
 
   commentReceive = (response) => {
@@ -35,11 +37,6 @@ class GamePage extends Component {
       this.setState({game: e.game, comments: e.comments});
   }
 
-  //componentWillUnmount()
-  //{
-  //  socket.disconnect()
-  //}
-
   addComment = () => {
     let comment = {
       gameCuid: this.state.game.cuid,
@@ -47,6 +44,10 @@ class GamePage extends Component {
     };
 
     this.props.dispatch(addCommentRequest(comment));
+  };
+
+  updateGame = () => {
+
   };
 
   deleteComment = (e) => {
@@ -58,11 +59,21 @@ class GamePage extends Component {
       <div className={styles.w100percents}>
 
         <Panel collapsible defaultExpanded header={this.state.game.name}>
+
+          <h3 className={gameStyles.status}>{this.state.game.status}</h3>
+
           <GameCommentList deleteComment={this.deleteComment} comments={this.props.comments} />
+
+          {(isAdmin() || isReporter()) &&
+            <AddComponent name="currentComment" value={this.state.currentComment} placeholder="Comment"
+                          onChange={this.onChangeInput} onClick={this.addComment} buttonName="Add Comment" /> }
+
         </Panel>
 
-        <AddComponent name="name" value={this.state.currentComment} placeholder="Comment"
-                      onChange={this.onChangeCurrentComment} onClick={this.addComment} buttonName="Add Comment" />
+        {(isAdmin() || isReporter()) &&
+        <AddComponent name="newGameStatus" value={this.state.newGameStatus} placeholder="Status"
+                      onChange={this.onChangeInput} onClick={this.updateGame} buttonName="Update Status" /> }
+
       </div>
     )
   }

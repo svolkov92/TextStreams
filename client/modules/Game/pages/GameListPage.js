@@ -9,7 +9,7 @@ import { getGames } from '../GameReducer';
 import { addGameRequest, addCommentRequest } from '../GameActions';
 import { isAdmin, isReporter } from '../../../util/apiCaller';
 import AddComponent from '../components/AddComponent'
-import styles from './GameListPage.css';
+import styles from './GameStyles.css';
 
 class GameListPage extends Component {
   constructor(props) {
