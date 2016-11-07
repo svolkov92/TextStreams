@@ -34,6 +34,7 @@ export function addUserRequest(user) {
     return callApi('users/registration', 'post', { user }).then(res => {
       localStorage.setItem('authenticationToken', res.token);
       localStorage.setItem('accessLevel', res.accessLevel);
+      localStorage.setItem('userName', user.email);
       browserHistory.push('/');
     });
   };

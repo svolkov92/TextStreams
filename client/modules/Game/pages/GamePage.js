@@ -44,7 +44,8 @@ class GamePage extends Component {
       gameCuid: this.state.game.cuid,
       value: this.state.currentComment
     };
-
+    
+    this.setState({currentComment: ''});
     this.props.dispatch(addCommentRequest(comment));
   };
 
