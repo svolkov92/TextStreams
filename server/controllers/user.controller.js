@@ -38,6 +38,24 @@ export function create(req, res) {
   }
 }
 
+export function updateUserAccessLevel(req, res) {
+  User.findOne({cuid: req.body.user.cuid})
+    .then(user => {
+      if (!user) {
+        res.status(405).end();
+      } else {
+        user.accessLevel = req.body.user.accessLevel;
+        return user.save();
+      }
+    })
+    .then(saved=> {
+      res.json({user: saved});
+    })
+    .catch(err=> {
+      res.status(500).send(err);
+    });
+}
+
 export function getUsers(req, res) {
   User.find().sort('email').exec((err, users) => {
     if (err) {

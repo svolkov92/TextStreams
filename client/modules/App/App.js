@@ -38,7 +38,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {false && this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
+        {true && this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
             title="Text Broadcast Service"

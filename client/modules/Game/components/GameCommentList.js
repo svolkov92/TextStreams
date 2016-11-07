@@ -9,7 +9,7 @@ function GameCommentList(props) {
     <div>
       {
         props.comments.map((comment, i)=> (
-          <div key={i}>{comment}</div>
+          <div key={i}>{comment.value}</div>
         ))
       }
     </div>

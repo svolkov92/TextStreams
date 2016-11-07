@@ -5,9 +5,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
-import io from 'socket.io-client';
-import { getGame } from '../GameReducer';
-import { addGameRequest, addCommentRequest } from '../GameActions';
+import { getGame, getGames } from '../GameReducer';
+import { getComments } from '../../Comment/CommentReducer'
+import { addCommentRequest, fetchComments } from '../../Comment/CommentActions'
 import { isAdmin, isReporter } from '../../../util/apiCaller';
 
 import AddComponent from '../components/AddComponent';
@@ -16,7 +16,7 @@ import GameCommentList from '../components/GameCommentList';
 class GamePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { game: props.game }
+    this.state = { game: props.game || { }, comments: props.comments || [] }
   }
 
   onChangeCurrentComment = (e) => {
@@ -24,7 +24,8 @@ class GamePage extends Component {
   };
 
   componentDidMount() {
-    this.setState({game: this.props.game});
+    debugger;
+    this.setState({game: this.props.game, comments: this.props.comments});
 
     const socket = io.connect();
     socket.on('comment', this.commentReceive);
@@ -59,12 +60,12 @@ class GamePage extends Component {
   };
 
   render() {
+
     return (
       <div>
         <h2>{this.state.game.name}</h2>
 
-
-        <GameCommentList comments={this.props.game.comments} />
+        <GameCommentList comments={this.props.comments} />
 
         <AddComponent name="name" value={this.state.currentComment} placeholder="Comment"
                       onChange={this.onChangeCurrentComment} onClick={this.addComment} buttonName="Add Comment" />
@@ -75,8 +76,12 @@ class GamePage extends Component {
 
 // Retrieve data from store as props
 function mapStateToProps(state, props) {
+  var test = getGame(state, props.params.cuid);
+  var test1 = getGames(state);
+
   return {
     game: getGame(state, props.params.cuid),
+    comments: getComments(state, props.params.cuid),
   };
 }
 

@@ -38,6 +38,7 @@ import serverConfig from './config';
 import users from './routes/user.routes';
 import auth from './routes/auth.routes';
 import games from './routes/game.routes';
+import comments from './routes/comment.routes';
 import User from './models/user';
 import SocketIo from 'socket.io';
 import passport from 'passport';
@@ -96,6 +97,7 @@ app.use('/api', posts);
 useRoutes(users);
 useRoutes(auth);
 useRoutes(games, io);
+useRoutes(comments, io);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

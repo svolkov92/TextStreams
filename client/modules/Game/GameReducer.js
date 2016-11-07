@@ -2,7 +2,7 @@
  * Created by Volkov on 30.10.2016.
  */
 
-import { ADD_GAMES, ADD_GAME, ADD_COMMENT, ADD_COMMENTS } from './GameActions';
+import { ADD_GAMES, ADD_GAME } from './GameActions';
 
 // Initial State
 const initialState = { data: [] };
@@ -20,12 +20,6 @@ const GameReducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.games,
-      };
-
-    case ADD_COMMENT:
-      return {
-        ...state,
-        data: state.data.map(obj => action.game.cuid === obj.cuid ? action.game : obj)
       };
 
     default:

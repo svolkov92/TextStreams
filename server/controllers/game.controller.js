@@ -23,29 +23,8 @@ export function createGame(req, res) {
 
 }
 
-export function addComment(req, res) {
-  Game.findOne({ cuid: req.body.comment.gameCuid })
-    .then(game => {
-      if (!game || !req.body.comment.value) {
-        res.status(405).end();
-      } else {
-
-        let commentValue = sanitizeHtml(req.body.comment.value);
-        game.comments.push(commentValue);
-
-        return game.save();
-      }
-    })
-    .then(saved=> {
-      res.json({ game: saved });
-    })
-    .catch(err=> {
-      res.status(500).send(err);
-    });
-}
 
 export function getGames(req, res) {
-
   Game.find({isActive: true}).sort('name').exec((err, games) => {
     if (err) {
       res.status(500).send(err);
@@ -62,23 +41,39 @@ export function getGames(req, res) {
   });
 }
 
-export function addCommentSocket(io) {
+export function deleteGame(req, res) {
+  Game.findOne({ cuid: req.body.game.cuid })
+    .then(game => {
+      if (!game) {
+        res.status(405).end();
+      } else {
+        game.isActive = false;
+        return game.save();
+      }
+    })
+    .then(saved=> {
+      res.json({ game: saved });
+    })
+    .catch(err=> {
+      res.status(500).send(err);
+    });
+}
+
+
+export function updateGameStatus(io) {
   return function (req, res) {
-    Game.findOne({ cuid: req.body.comment.gameCuid })
+    Game.findOne({cuid: req.body.game.cuid})
       .then(game => {
-        if (!game || !req.body.comment.value) {
+        if (!game) {
           res.status(405).end();
         } else {
-
-          let commentValue = sanitizeHtml(req.body.comment.value);
-          game.comments.push(commentValue);
-
+          game.status = req.body.game.status;
           return game.save();
         }
       })
       .then(saved=> {
-        io.sockets.emit("comment", {"game": saved});
-        res.json({ game: saved });
+        io.sockets.emit("gameStatusUpdated", {"comment": saved});
+        res.json({game: saved});
       })
       .catch(err=> {
         res.status(500).send(err);

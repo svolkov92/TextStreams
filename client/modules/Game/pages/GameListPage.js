@@ -4,13 +4,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
-
+import { browserHistory } from 'react-router';
 import { getGames } from '../GameReducer';
 import { addGameRequest, addCommentRequest } from '../GameActions';
 import { isAdmin, isReporter } from '../../../util/apiCaller';
-
 import AddComponent from '../components/AddComponent'
-
 import styles from './GameListPage.css';
 
 class GameListPage extends Component {
@@ -47,7 +45,7 @@ class GameListPage extends Component {
         <ListGroup>
           {
             this.props.games.map(game=> (
-              <ListGroupItem href={`/games/${game.cuid}`} key={game.cuid}>{game.name}</ListGroupItem>
+              <ListGroupItem onClick={() => browserHistory.push(`/games/${game.cuid}`)} key={game.cuid}>{game.name}</ListGroupItem>
             ))
           }
         </ListGroup>
