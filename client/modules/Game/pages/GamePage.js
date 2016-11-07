@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, FormControl, Button, Panel } from 'react-bootstrap';
 import { getGame, getGames } from '../GameReducer';
 import { getComments } from '../../Comment/CommentReducer'
-import { addCommentRequest, fetchComments, addComment } from '../../Comment/CommentActions'
+import { addCommentRequest, fetchComments, addComment, removeCommentRequest } from '../../Comment/CommentActions'
 import { isAdmin, isReporter } from '../../../util/apiCaller';
 import AddComponent from '../components/AddComponent';
 import GameCommentList from '../components/GameCommentList';
@@ -50,7 +50,7 @@ class GamePage extends Component {
   };
 
   deleteComment = (e) => {
-    debugger;
+    this.props.dispatch(removeCommentRequest({cuid: e.target.id}));
   };
 
   render() {

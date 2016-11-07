@@ -47,7 +47,7 @@ export function addCommentRequest(comment) {
 export function removeCommentRequest(comment) {
   return (dispatch) => {
     return callApi('comments/delete', 'post', { comment }).then(res => {
-      dispatch(removeComment(res.comment))
+      //dispatch(removeComment(res.comment))
     });
   };
 }

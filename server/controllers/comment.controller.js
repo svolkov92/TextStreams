@@ -20,7 +20,6 @@ export function getComments(req, res) {
 
 export function addCommentSocket(io) {
   return function (req, res) {
-    console.log(req);
     let newComment = new Comment(req.body.comment);
     newComment.cuid = cuid();
     newComment.time = (new Date()).getTime();
@@ -38,6 +37,7 @@ export function addCommentSocket(io) {
 
 export function deleteCommentSocket(io) {
   return function (req, res) {
+    console.log(req);
     Comment.findOne({ cuid: req.body.comment.cuid })
       .then(comment => {
         if (!comment) {

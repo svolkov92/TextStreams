@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { addComment } from '../Comment/CommentActions';
+import { addComment, removeComment } from '../Comment/CommentActions';
 // Import Style
 import styles from './App.css';
 
@@ -24,11 +24,17 @@ export class App extends Component {
   componentDidMount() {
     this.setState({isMounted: true}); // eslint-disable-line
     const socket = io.connect();
-    socket.on('commentAdded', this.commentReceive);
+    socket.on('commentAdded', this.commentReceived);
+    socket.on('commentRemoved', this.commentDeleted);
   }
 
-  commentReceive = (response) => {
+  commentReceived = (response) => {
     this.props.dispatch(addComment(response.comment));
+  };
+
+  commentDeleted = (response) => {
+    debugger;
+    this.props.dispatch(removeComment(response.comment));
   };
 
   toggleAddPostSection = () => {
